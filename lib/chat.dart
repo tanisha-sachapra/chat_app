@@ -158,15 +158,25 @@ class _ChatScreenState extends State<ChatScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  message['sender'],
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isCurrentUser
-                                        ? Colors.white
-                                        : Colors.black54,
-                                  ),
-                                ),
+                                message['sender'] == currentUser
+                                    ? Text(
+                                        'You',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: isCurrentUser
+                                              ? Colors.white
+                                              : Colors.black54,
+                                        ),
+                                      )
+                                    : Text(
+                                        // Make sure to return a Text widget in both cases
+                                        chatWithUserEmail.split('@')[0],
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors
+                                              .grey, // or any other style you want for non-current users
+                                        ),
+                                      ),
                                 const SizedBox(height: 5),
                                 Text(
                                   message['text'],
@@ -204,11 +214,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       filled: true,
                       fillColor: Colors.white,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 2),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 2),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
