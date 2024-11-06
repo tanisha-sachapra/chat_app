@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "636611972338",
+    "project_id": "chatdemo-b3556",
+    "storage_bucket": "chatdemo-b3556.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636611972338:android:92684fd50e36122e1fd46b",
+        "android_client_info": {
+          "package_name": "com.example.chatdemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARpQ6N5jz9x-wP2DcugRrd7pd_mT8jwas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
