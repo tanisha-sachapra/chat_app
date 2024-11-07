@@ -31,10 +31,11 @@ class _ChatlistState extends State<Chatlist> {
       backgroundColor: const Color.fromARGB(255, 237, 236, 236),
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () {
-           Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-          },
-          child: Icon(Icons.arrow_back)),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
+            child: Icon(Icons.arrow_back)),
         centerTitle: true,
         title: const Text("Users"),
         backgroundColor: Colors.white,
@@ -78,7 +79,6 @@ class _ChatlistState extends State<Chatlist> {
                           subtitle: Text(userEmail),
                           onTap: () {
                             log('user email :$userEmail');
-                            // Navigate to the ChatScreen and pass user info
                             Navigator.push(
                               context,
                               MaterialPageRoute(

@@ -1,11 +1,27 @@
-import 'package:chatdemo/chat.dart';
+import 'dart:developer';
+
 import 'package:chatdemo/chatlist.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
+
+  Future<void> SignOut(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      await prefs.setBool('loginkey', false);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } catch (e) {
+      print("Error signing out: $e");
+    }
+  }
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -13,20 +29,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // Function to handle sign-in
   Future<void> signIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     try {
       await _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      await prefs.setBool('loginkey', true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Chatlist()),
       );
     } catch (e) {
-      print(e); // Show error message if login fails
-      // You can also show a dialog or a snackbar with the error message
+      print(e);
     }
   }
 
@@ -51,7 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   'chat app',
                   style: TextStyle(color: Colors.black),
                 ),
-                const Icon(Icons.chat_bubble_outline, size: 80, color: Colors.blue),
+                const Icon(Icons.chat_bubble_outline,
+                    size: 80, color: Colors.blue),
                 const SizedBox(height: 40),
                 TextField(
                   controller: emailController,
@@ -64,12 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Password TextField
                 TextField(
                   controller: passwordController,
                   decoration: InputDecoration(
@@ -81,18 +98,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
                   ),
                   obscureText: true,
                 ),
                 const SizedBox(height: 30),
-                // Login Button
                 ElevatedButton(
                   onPressed: signIn,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 89, 137, 219),
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 60),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -106,35 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Forgot Password Text
-                GestureDetector(
-                  onTap: () {
-                    // Handle Forgot Password action
-                  },
-                  child: const Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Colors.blueAccent, fontSize: 14),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Sign Up Link
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account? "),
-                    GestureDetector(
-                      onTap: () {
-                        // Navigate to sign-up screen
-                      },
-                      child: const Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

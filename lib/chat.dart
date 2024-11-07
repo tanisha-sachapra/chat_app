@@ -14,6 +14,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final LoginScreen loginScreen = LoginScreen();
   final TextEditingController _messageController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -46,11 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.black),
             onPressed: () async {
-              await _auth.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
+              await loginScreen.SignOut(context);
             },
           ),
         ],
@@ -117,8 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
 
                     return ListView.builder(
-                      reverse:
-                          true, // To show the latest messages at the bottom
+                      reverse: true,
                       itemCount: combinedMessages.length,
                       itemBuilder: (context, index) {
                         final message = combinedMessages[index];
@@ -147,8 +143,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                     ? const Radius.circular(0)
                                     : const Radius.circular(12),
                               ),
-                              boxShadow: [
-                                const BoxShadow(
+                              boxShadow: const [
+                                BoxShadow(
                                   color: Colors.black26,
                                   blurRadius: 1,
                                   offset: Offset(1, 1),
@@ -171,7 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     : Text(
                                         // Make sure to return a Text widget in both cases
                                         chatWithUserEmail.split('@')[0],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           color: Colors
                                               .grey, // or any other style you want for non-current users
